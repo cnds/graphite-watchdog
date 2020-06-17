@@ -11,14 +11,19 @@ def get_item_avg(item):
     average of item from start time to end time
     """
     args = request.args
-    start_time = validate_date(args.get('start_time'))
-    end_time = validate_date(args.get('end_time'))
+    app.logger.debug('item: %s' % item)
+    start_time = _validate_date(args.get('start_time'))
+    end_time = _validate_date(args.get('end_time'))
     start_str = '{0}_{1}'.format(start_time.strftime('%H:%M'), 
                                  start_time.strftime('%Y%m%d'))
-    end_str = '{0}_{1}'.format(end_time.strftime('%H:%M'), 
+    end_str = '{0}_{1}'.format(end_time.strftime('%H:%M'),
                                end_time.strftime('%Y%m%d'))
     try:
-        params = {'from': start_str, 'until': end_str, 'target': item}
+        params = {
+            'target': item.split(','),
+            'from': start_str,
+            'until': end_str,
+        }
         resp = requests.get(app.config['URL'], params=params)
         if resp.status_code != 200:
             abort(400, 'Request Graphite Error')
@@ -37,7 +42,7 @@ def get_item_avg(item):
     return result
 
 
-def validate_date(date):
+def _validate_date(date):
     """
     validate input date, should be string '%Y-%m-%d %H:%M'
     """
