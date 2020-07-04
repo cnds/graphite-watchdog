@@ -1,5 +1,5 @@
 from hawk import app
-from hawk.apps import views
+from hawk.api import views
 
 if __name__ == "__main__":
     app.run()
