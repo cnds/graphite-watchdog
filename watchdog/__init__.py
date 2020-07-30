@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask, json
+from flask.cli import with_appcontext
 from werkzeug.exceptions import HTTPException
 
 
@@ -10,7 +11,7 @@ def create_app(test_config=None):
     flask_app = Flask(__name__)
     flask_app.config.from_mapping(
         SECRET_KEY='dev',
-        DATABASE=os.path.join(flask_app.instance_path, 'hawk.sqlite'),
+        DATABASE=os.path.join(flask_app.instance_path, 'watchdog.sqlite'),
     )
 
     if test_config is None:
@@ -35,8 +36,8 @@ def create_app(test_config=None):
         response.content_type = "application/json"
         return response
 
-    # from hawk import db
-    # db.init_app(flask_app)
+    from .db import init_app
+    init_app(flask_app)
 
     return flask_app
 

@@ -1,4 +1,4 @@
-# graphite-hawk
+# graphite-watchdog
 Graphite Advanced Monitor
 * Based on [Flask](https://github.com/pallets/flask), [Apscheduler](https://github.com/agronholm/apscheduler) and [SQLite](https://www.sqlite.org/index.html)
 
